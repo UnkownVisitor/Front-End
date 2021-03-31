@@ -1,0 +1,21 @@
+* {
+    font-family: monospace;
+}
+
+.container {
+    text-align: center;
+    background-color: #00b0f0;
+}
+
+.result {
+    text-align: right;
+    font-size: xx-large;
+}
+
+.buttons {
+    margin: auto;
+}
+
+.button {
+    background-color: white;
+}
