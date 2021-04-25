@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <link rel="stylesheet" type="text/css" href="calc.css">
+</head>
+<body>
+<div class="container">
+    <h2>Calculator</h2>
+    <label>
+        <input id="result" class="result" type="text" value="">
+    </label>
+    <table class="buttons">
+        <tr>
+            <td>
+                <button class="button" onclick="input('^2')">x²</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('^')">xʸ</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('sin(')">sin</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('cos(')">cos</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('tan(')">tan</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button class="button" onclick="input('sqrt(')">√</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('*10^')">10ˣ</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('log(')">log</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('exp(')">Exp</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('%')">Mod</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button class="button" disabled>↑</button>
+            </td>
+            <td>
+                <button class="button button-red" disabled>CE</button>
+            </td>
+            <td>
+                <button class="button button-red" onclick="clr()">C</button>
+            </td>
+            <td>
+                <button class="button button-red" onclick="del()">DEL</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('/')">÷</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button class="button" onclick="input('3.14')">π</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('7')">7</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('8')">8</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('9')">9</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('*')">×</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button class="button" onclick="input('!')">n!</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('4')">4</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('5')">5</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('6')">6</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('-')">-</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button class="button" disabled>±</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('1')">1</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('2')">2</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('3')">3</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('+')">+</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button class="button" onclick="input('(')">（</button>
+            </td>
+            <td>
+                <button class="button" onclick="input(')')">）</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('0')">0</button>
+            </td>
+            <td>
+                <button class="button" onclick="input('.')">.</button>
+            </td>
+            <td>
+                <button class="button button-green" onclick="solve()">=</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<script src="calc.js"></script>
+</body>
+</html>
