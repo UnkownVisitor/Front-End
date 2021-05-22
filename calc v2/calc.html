@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <link href="calc.css" rel="stylesheet">
+    <title>Calculator</title>
+</head>
+<body>
+<div class="container">
+    <h1>Calculator</h1>
+    <label>
+        <input id="result" class="form-control" type="text" readonly>
+    </label>
+    <div>
+        <button class="btn btn-light" onclick="input('^2')">x²</button>
+        <button class="btn btn-light" onclick="input('^')">xʸ</button>
+        <button class="btn btn-light" onclick="input('sin(')">sin</button>
+        <button class="btn btn-light" onclick="input('cos(')">cos</button>
+        <button class="btn btn-light" onclick="input('tan(')">tan</button>
+    </div>
+    <div>
+        <button class="btn btn-light" onclick="input('sqrt(')">√</button>
+        <button class="btn btn-light" onclick="input('*10^')">10ˣ</button>
+        <button class="btn btn-light" onclick="input('log(')">log</button>
+        <button class="btn btn-light" onclick="input('exp(')">Exp</button>
+        <button class="btn btn-light" onclick="input('%')">Mod</button>
+    </div>
+    <div>
+        <button class="btn btn-light" disabled>↑</button>
+        <button class="btn btn-danger" disabled>CE</button>
+        <button class="btn btn-danger" onclick="clr()">C</button>
+        <button class="btn btn-danger" onclick="del()">DEL</button>
+        <button class="btn btn-light" onclick="input('/')">÷</button>
+    </div>
+    <div>
+        <button class="btn btn-light" onclick="input('pi')">π</button>
+        <button class="btn btn-light" onclick="input('7')">7</button>
+        <button class="btn btn-light" onclick="input('8')">8</button>
+        <button class="btn btn-light" onclick="input('9')">9</button>
+        <button class="btn btn-light" onclick="input('*')">×</button>
+    </div>
+    <div>
+        <button class="btn btn-light" onclick="input('!')">n!</button>
+        <button class="btn btn-light" onclick="input('4')">4</button>
+        <button class="btn btn-light" onclick="input('5')">5</button>
+        <button class="btn btn-light" onclick="input('6')">6</button>
+        <button class="btn btn-light" onclick="input('-')">-</button>
+    </div>
+    <div>
+        <button class="btn btn-light" disabled>±</button>
+        <button class="btn btn-light" onclick="input('1')">1</button>
+        <button class="btn btn-light" onclick="input('2')">2</button>
+        <button class="btn btn-light" onclick="input('3')">3</button>
+        <button class="btn btn-light" onclick="input('+')">+</button>
+    </div>
+    <div>
+        <button class="btn btn-light" onclick="input('(')">(</button>
+        <button class="btn btn-light" onclick="input(')')">)</button>
+        <button class="btn btn-light" onclick="input('0')">0</button>
+        <button class="btn btn-light" onclick="input('.')">.</button>
+        <button class="btn btn-success" onclick="solve()">=</button>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="calc.js"></script>
+</body>
+</html>
