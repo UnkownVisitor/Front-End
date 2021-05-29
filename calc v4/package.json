@@ -1,0 +1,21 @@
+{
+  "name": "calc-v4",
+  "version": "1.0.0",
+  "description": "Calculator",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chara",
+  "license": "MIT",
+  "devDependencies": {
+    "css-loader": "^5.2.6",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0"
+  },
+  "dependencies": {
+    "bootstrap": "^5.0.1",
+    "jquery": "^3.6.0"
+  },
+  "main": "index.js"
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+</head>
+<body>
+<div class="container">
+    <h1>Calculator</h1>
+    <label>
+        <input id="result" class="form-control" type="text" readonly>
+    </label>
+    <div>
+        <button class="btn btn-light" onclick="input('^2')">x²</button>
+        <button class="btn btn-light" onclick="input('^')">xʸ</button>
+        <button class="btn btn-light" onclick="input('sin(')">sin</button>
+        <button class="btn btn-light" onclick="input('cos(')">cos</button>
+        <button class="btn btn-light" onclick="input('tan(')">tan</button>
+    </div>
+    <div>
+        <button class="btn btn-light" onclick="input('sqrt(')">√</button>
+        <button class="btn btn-light" onclick="input('*10^')">10ˣ</button>
+        <button class="btn btn-light" onclick="input('log(')">log</button>
+        <button class="btn btn-light" onclick="input('exp(')">Exp</button>
+        <button class="btn btn-light" onclick="input('%')">Mod</button>
+    </div>
+    <div>
+        <button class="btn btn-light" disabled>↑</button>
+        <button class="btn btn-danger" disabled>CE</button>
+        <button class="btn btn-danger" onclick="clr()">C</button>
+        <button class="btn btn-danger" onclick="del()">DEL</button>
+        <button class="btn btn-light" onclick="input('/')">÷</button>
+    </div>
+    <div>
+        <button class="btn btn-light" onclick="input('pi')">π</button>
+        <button class="btn btn-light" onclick="input('7')">7</button>
+        <button class="btn btn-light" onclick="input('8')">8</button>
+        <button class="btn btn-light" onclick="input('9')">9</button>
+        <button class="btn btn-light" onclick="input('*')">×</button>
+    </div>
+    <div>
+        <button class="btn btn-light" onclick="input('!')">n!</button>
+        <button class="btn btn-light" onclick="input('4')">4</button>
+        <button class="btn btn-light" onclick="input('5')">5</button>
+        <button class="btn btn-light" onclick="input('6')">6</button>
+        <button class="btn btn-light" onclick="input('-')">-</button>
+    </div>
+    <div>
+        <button class="btn btn-light" disabled>±</button>
+        <button class="btn btn-light" onclick="input('1')">1</button>
+        <button class="btn btn-light" onclick="input('2')">2</button>
+        <button class="btn btn-light" onclick="input('3')">3</button>
+        <button class="btn btn-light" onclick="input('+')">+</button>
+    </div>
+    <div>
+        <button class="btn btn-light" onclick="input('(')">(</button>
+        <button class="btn btn-light" onclick="input(')')">)</button>
+        <button class="btn btn-light" onclick="input('0')">0</button>
+        <button class="btn btn-light" onclick="input('.')">.</button>
+        <button class="btn btn-success" onclick="solve()">=</button>
+    </div>
+</div>
+
+<script src="bundle.js"></script>
+
+</body>
+</html>
