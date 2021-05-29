@@ -1,0 +1,25 @@
+.container{
+    text-align: center;
+    margin-top: 10px;
+    background-color: #00b0f0;
+    width: 440px;
+    height: 410px;
+    border: 1px solid #000000;
+    border-radius: 0.25rem;
+}
+
+.form-control{
+    text-align: right;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 400px;
+    height: 55px;
+    border: 1px solid #000000;
+}
+
+.btn{
+    margin: 2px;
+    width: 75px;
+    height: 32px;
+    border: 1px solid #000000;
+}
