@@ -2,9 +2,6 @@
   "name": "calc-v4",
   "version": "1.0.0",
   "description": "Calculator",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Chara",
   "license": "MIT",
   "devDependencies": {
