@@ -38,35 +38,41 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 <script>
-    function init() {
-        let cookies = document.cookie.split(";");
-        for (let i = 0; i < cookies.length; i++) {
-            let item = cookies[i].trim();
-            if (item.indexOf("meeting-name=") === 0) {
-                let meetingName = item.substr(13);
-                $("h1").text(meetingName);
-                return;
-            }
-        }
-    }
-
-    init();
-
-    function joinMeeting() {
+    $(function () {
         $.ajax({
-            type: "POST",
-            url: document.URL,
-            contentType: "text/plain",
-            data: $("#member-name").val(),
+            method: "GET",
+            url: document.URL + "/getMeetingName",
             statusCode: {
-                205: function () {
-                    location.reload();
+                200: function (jsonStr) {
+                    let json = JSON.parse(jsonStr);
+                    let meetingName = json["meetingName"];
+                    $("title").text(meetingName);
+                    $("h1").text(meetingName);
                 },
                 404: function () {
-                    window.alert("加入会议失败，该会议不存在！");
+                    window.alert("错误，会议不存在");
+                    window.location.replace("/");
+                }
+            }
+        })
+    })
+
+    function joinMeeting() {
+        let memberName = $("#member-name").val();
+        $.ajax({
+            method: "POST",
+            url: document.URL,
+            contentType: "application/json",
+            data: JSON.stringify({"memberName": memberName}),
+            statusCode: {
+                201: function () {
+                    window.location.reload();
                 },
-                409: function () {
-                    window.alert("加入会议失败，成员名称与会议中已有成员冲突");
+                400: function () {
+                    window.alert("加入会议失败，语法错误");
+                },
+                404: function () {
+                    window.alert("加入会议失败，会议不存在");
                 }
             }
         })
