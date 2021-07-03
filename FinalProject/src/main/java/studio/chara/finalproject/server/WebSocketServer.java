@@ -5,10 +5,16 @@ import org.springframework.stereotype.Component;
 import studio.chara.finalproject.entity.Meeting;
 import studio.chara.finalproject.entity.Member;
 
+import javax.websocket.OnClose;
+import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static studio.chara.finalproject.controller.JsonController.meetingMap;
 
@@ -41,9 +47,47 @@ public class WebSocketServer {
         this.sessionID = sessionID;
 
         member.setWebSocketServer(this);
+
+        sendMemberList();
     }
 
-    private void sendText(String text) {
+    @OnClose
+    public void onClose() {
+        Meeting meeting = meetingMap.get(uuid);
+        if (meeting == null) {
+            sendError();
+            return;
+        }
+        Member member = meeting.getMemberMap().get(sessionID);
+        if (member == null) {
+            sendError();
+            return;
+        }
+        member.setWebSocketServer(null);
+    }
+
+    @OnMessage
+    public void onMessage(String json) {
+        Meeting meeting = meetingMap.get(uuid);
+        if (meeting == null) {
+            sendError();
+            return;
+        }
+        Member member = meeting.getMemberMap().get(sessionID);
+        if (member == null) {
+            sendError();
+            return;
+        }
+        for (Member each : meeting.getMemberMap().values())
+            if (!each.equals(member)) {
+                WebSocketServer server = each.getWebSocketServer();
+                if (server != null)
+                    server.sendText(json);
+            }
+
+    }
+
+    public void sendText(String text) {
         session.getAsyncRemote().sendText(text);
     }
 
@@ -57,6 +101,25 @@ public class WebSocketServer {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("type", "join");
         jsonObject.put("memberName", memberName);
+        sendText(jsonObject.toString());
+    }
+
+    public void sendMemberList() {
+        Meeting meeting = meetingMap.get(uuid);
+        if (meeting == null) {
+            sendError();
+            return;
+        }
+
+        List<String> memberList = new ArrayList<>();
+
+        for (Member member : meeting.getMemberMap().values())
+            memberList.add(member.getMemberName());
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("type", "memberList");
+        jsonObject.put("memberList", memberList);
+
         sendText(jsonObject.toString());
     }
 }

@@ -22,89 +22,17 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item"><h1 class="h5 fw-bold">成员列表</h1></li>
-            <li>张三</li>
-            <li>李四</li>
-            <li>王五</li>
         </ul>
         <hr>
-        <button class="btn btn-lg btn-danger w-100">退出会议</button>
+        <button class="btn btn-lg btn-danger w-100" onclick="leaveMeeting()">退出会议</button>
     </div>
     <div class="p-3 w-100">
         <div class="h-75 w-100 overflow-auto">
-            <div class="text-end">
-                <span class="text-primary fw-bold">张三</span>
-                <p>Bootstrap is supported by an extensive color system that themes our styles and components. This
-                    enables more comprehensive customization and extension for any project.</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>Bootstrap is supported by an extensive color system that themes our styles and components. This
-                    enables more comprehensive customization and extension for any project.</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
-            <div>
-                <span class="text-success fw-bold">李四</span>
-                <p>test</p>
-            </div>
+            <br id="pointer">
         </div>
         <hr>
         <div class="h-25 w-100">
-            <form class="h-100">
+            <form class="h-100" onsubmit="return sendMessage();">
                 <div class="form-floating mb-3" style="height: calc(100% - 96px);">
                     <textarea class="form-control h-100" id="message" placeholder="消息"></textarea>
                     <label for="message">消息</label>
@@ -112,7 +40,6 @@
                 <div class="float-end">
                     <button class="btn btn-lg btn-success float-right">发送</button>
                 </div>
-
             </form>
         </div>
     </div>
@@ -148,9 +75,7 @@
 
     function openSocket() {
         let sessionID = $.cookie("sessionID");
-        console.log(sessionID);
         let socketURL = "ws" + document.URL.substr(4) + "/" + sessionID;
-        console.log(socketURL);
 
         if (socket != null) {
             socket.close();
@@ -161,8 +86,96 @@
 
         socket.onmessage =
             function (message) {
-                console.log(message.data);
+                let json = JSON.parse(message.data);
+                switch (json["type"]) {
+                    case "error": {
+                        window.alert("发生未知错误");
+                    }
+                        break;
+
+                    case "memberList": {
+                        let memberList = json["memberList"]
+                        for (let i = 0; i < memberList.length; i++) {
+                            let memberName = memberList[i];
+                            $(".nav-item").after("<li id='" + memberName + "'>" + memberName + "</li>");
+                        }
+                    }
+                        break;
+
+                    case "join": {
+                        let memberName = json["memberName"];
+                        $("#pointer").before(
+                            "<div class='text-center'>\n" +
+                            "    <p class='text-muted'>" + memberName + "加入了会议</p>\n" +
+                            "</div>")
+                        $(".nav-item").after("<li id='" + memberName + "'>" + memberName + "</li>");
+                    }
+                        break;
+
+                    case "message": {
+                        let name = json["name"];
+                        let message = json["message"];
+                        $("#pointer").before(
+                            "<div>\n" +
+                            "    <span class='text-success fw-bold'>" + name + "</span>\n" +
+                            "    <p>" + message + "</p>\n" +
+                            "</div>"
+                        )
+                    }
+                        break;
+
+                    case "leaveMeeting": {
+                        let name = json["name"];
+                        $("#pointer").before(
+                            "<div class='text-center'>\n" +
+                            "    <p class='text-muted'>" + name + "离开了会议</p>\n" +
+                            "</div>")
+                        $("#" + name).remove();
+                    }
+                        break;
+
+                    default:
+                        console.log(json);
+                }
             }
+    }
+
+    let name = $.cookie("name");
+
+    function sendMessage() {
+        let message = $("textarea").val();
+
+        $("#pointer").before(
+            "<div class='text-end'>\n" +
+            "    <span class='text-primary fw-bold'>" + name + "</span>\n" +
+            "    <p>" + message + "</p>\n" +
+            "</div>"
+        )
+
+        let jsonObject = {"type": "message", "name": name, "message": message};
+        socket.send(JSON.stringify(jsonObject));
+
+        return false;
+    }
+
+    function leaveMeeting() {
+        $.ajax({
+            method: "GET",
+            url: document.URL + "/leaveMeeting",
+            statusCode: {
+                200: function () {
+                    window.alert("离开会议成功");
+                    window.location.replace("/");
+                },
+                400: function () {
+                    window.alert("发生未知错误");
+                },
+                404: function () {
+                    window.alert("错误，会议不存在");
+                    window.location.replace("/");
+                }
+            }
+        });
     }
 </script>
 </body>

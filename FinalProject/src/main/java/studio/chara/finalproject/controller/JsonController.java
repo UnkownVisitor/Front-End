@@ -83,6 +83,11 @@ public class JsonController {
         meeting.getMemberMap().put(httpSession.getId(), member);
         httpSession.setAttribute(uuid, member);
 
+        Cookie cookie = new Cookie("name", memberName);
+        cookie.setPath(request.getRequestURI());
+        cookie.setMaxAge(24 * 60 * 60);
+        response.addCookie(cookie);
+
         for (Map.Entry<String, Member> entry : meeting.getMemberMap().entrySet())
             if (!entry.getKey().equals(httpSession.getId())) {
                 Member dest = entry.getValue();
@@ -90,7 +95,7 @@ public class JsonController {
                 if (server != null)
                     server.sendJoin(memberName);
             }
-        
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -106,5 +111,43 @@ public class JsonController {
         responseBody.put("meetingName", meeting.getMeetingName());
 
         return new ResponseEntity<>(responseBody.toString(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{uuid}/leaveMeeting")
+    public ResponseEntity<Void> leaveMeeting(
+            @PathVariable("uuid") String uuid,
+            HttpServletRequest request,
+            HttpServletResponse response) {
+        Meeting meeting = meetingMap.get(uuid);
+        if (meeting == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        HttpSession httpSession = request.getSession(false);
+        if (httpSession == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Member member = (Member) httpSession.getAttribute(uuid);
+        if (member == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        meeting.getMemberMap().remove(httpSession.getId());
+        httpSession.removeAttribute(uuid);
+
+        Cookie cookie = new Cookie("name", "");
+        cookie.setPath(request.getRequestURI());
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("type", "leaveMeeting");
+        jsonObject.put("name", member.getMemberName());
+
+        for (Member each : meeting.getMemberMap().values()) {
+            WebSocketServer server = each.getWebSocketServer();
+            if (server != null)
+                server.sendText(jsonObject.toString());
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
